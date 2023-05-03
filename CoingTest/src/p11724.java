@@ -41,8 +41,6 @@ public class p11724 {
 				dfs(j);
 			}
 		}
-		
-		
 	}
 
 }
