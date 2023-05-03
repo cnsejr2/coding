@@ -53,7 +53,6 @@ public class p1012 {
 			sb.append(result).append('\n');
 		}
 		System.out.println(sb);
-		
 	}
 
 	private static void dfs(int x, int y) {
