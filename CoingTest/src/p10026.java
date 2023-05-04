@@ -23,26 +23,43 @@ public class p10026 {
 				matrix[i][j] = c;
 			}
 		}
-		for (k = 0; k < 2; k++) {
-			visited = new boolean[n][n];
-			count = 0;
-			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					if (matrix[i][j] == 'R' && visited[i][j] == false) {
-						if (k == 1 && matrix[i][j] == 'G' || k == 0) { 
-							count++;
-							dfs(i, j);
-						}
-					}
+		
+		visited = new boolean[n][n];
+		int count = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == 'R' && visited[i][j] == false) {
+					count++;
+					dfs('R', i, j);
+				} else if (matrix[i][j] == 'G' && visited[i][j] == false) {
+					count++;
+					dfs('G', i, j);
+				} else if (matrix[i][j] == 'B' && visited[i][j] == false) {
+					count++;
+					dfs('B', i, j);
 				}
 			}	
-			System.out.print(count + " ");
 		}
-
 		
+		System.out.print(count + " ");
+		
+		visited = new boolean[n][n];
+		count = 0;
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if ((matrix[i][j] == 'R' || matrix[i][j] == 'G') && visited[i][j] == false) {
+					count++;
+					dfs2('R', 'G', i, j);
+				} else if (matrix[i][j] == 'B' && visited[i][j] == false) {
+					count++;
+					dfs2('B', ' ', i, j);
+				}
+			}	
+		}
+		System.out.print(count);
 		sc.close();
 	}
-	private static void dfs(int x, int y) {
+	private static void dfs(char color, int x, int y) {
 		// TODO Auto-generated method stub
 		visited[x][y] = true;
 		
@@ -50,11 +67,25 @@ public class p10026 {
 			int mx = x + dx[i];
 			int my = y + dy[i];
 			
-			if (mx > 0 && my > 0 && mx < n && my < n) {
-				if (matrix[mx][my] == 'R' && visited[mx][my] == false) {
-					if (k == 1 && matrix[mx][my] == 'G'|| k == 0) { 
-						dfs(mx, my);
-					}
+			if (mx >= 0 && my >= 0 && mx < n && my < n) {
+				if (matrix[mx][my] == color && visited[mx][my] == false) {
+					dfs(color, mx, my);
+				}	
+			}
+		}
+	}
+	
+	private static void dfs2(char color1, char color2, int x, int y) {
+		// TODO Auto-generated method stub
+		visited[x][y] = true;
+		
+		for (int i = 0; i < 4; i++) {
+			int mx = x + dx[i];
+			int my = y + dy[i];
+			
+			if (mx >= 0 && my >= 0 && mx < n && my < n) {
+				if ((matrix[mx][my] == color1 || matrix[mx][my] == color2) && visited[mx][my] == false) {
+					dfs2(color1, color2, mx, my);
 				}	
 			}
 		}
