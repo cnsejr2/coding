@@ -45,14 +45,23 @@ public class p10026 {
 		
 		visited = new boolean[n][n];
 		count = 0;
+		
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				if ((matrix[i][j] == 'R' || matrix[i][j] == 'G') && visited[i][j] == false) {
+				if (matrix[i][j] == 'G') {
+					matrix[i][j] = 'R';
+				}
+			}
+		}
+		
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (matrix[i][j] == 'R' && visited[i][j] == false) {
 					count++;
-					dfs2('R', 'G', i, j);
+					dfs('R', i, j);
 				} else if (matrix[i][j] == 'B' && visited[i][j] == false) {
 					count++;
-					dfs2('B', ' ', i, j);
+					dfs('B', i, j);
 				}
 			}	
 		}
@@ -70,22 +79,6 @@ public class p10026 {
 			if (mx >= 0 && my >= 0 && mx < n && my < n) {
 				if (matrix[mx][my] == color && visited[mx][my] == false) {
 					dfs(color, mx, my);
-				}	
-			}
-		}
-	}
-	
-	private static void dfs2(char color1, char color2, int x, int y) {
-		// TODO Auto-generated method stub
-		visited[x][y] = true;
-		
-		for (int i = 0; i < 4; i++) {
-			int mx = x + dx[i];
-			int my = y + dy[i];
-			
-			if (mx >= 0 && my >= 0 && mx < n && my < n) {
-				if ((matrix[mx][my] == color1 || matrix[mx][my] == color2) && visited[mx][my] == false) {
-					dfs2(color1, color2, mx, my);
 				}	
 			}
 		}
