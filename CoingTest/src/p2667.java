@@ -47,7 +47,7 @@ public class p2667 {
 		
 		sc.close();
 	}
-	private static int dfs(int x, int y) {
+	private static void dfs(int x, int y) {
 		visited[x][y] = true;
 		
 		for (int i = 0; i < 4; i++) {
@@ -61,7 +61,6 @@ public class p2667 {
 				}		
 			}
 		}
-		return count;
 		
 	}
 
