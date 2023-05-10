@@ -34,20 +34,17 @@ public class p1325 {
 			
 			map[b].add(a);
 		}
-		
+		int max = 0;
 		for (int i = 1; i <= n; i++) {
 			count = 0;
 			dfs(i);
 			result[i] = count;
+			if (count > max) {
+				max = count;
+			}
 			visited = new boolean[n + 1];
 		}	
-		int max = 0;
-		for (int i = 1; i <= n; i++) {
-			if (max < result[i]) {
-				max = result[i];
-			}
-		}
-		
+
 		for (int i = 1; i <= n; i++) {
 			if (max == result[i]) {
 				System.out.print(i + " ");

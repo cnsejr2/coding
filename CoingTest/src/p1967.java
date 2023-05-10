@@ -1,48 +1,76 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class p1967 {
+	static class Node{
+		int num;
+		int weight;
+		
+		Node(int num, int weight) {
+			this.num = num;
+			this.weight = weight;
+		}
+	}
 	static int n;
-	static int[][] map;
-	static int[][] visited;
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
+	static int dist;
+	static int farthestNode;
+	static ArrayList<Node> adj[];
+	static boolean[] isVisited;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine()); 
 		
-		n = sc.nextInt();
+		n = Integer.parseInt(st.nextToken());
+		dist = 0;
+		farthestNode = 0;
+		adj = new ArrayList[n + 1];
+		isVisited = new boolean[n + 1];
 		
-		map = new int[n + 1][n + 1];
-		visited = new int[n + 1][n + 1];
+		for (int i = 0; i <= n; i++) {
+			adj[i] = new ArrayList<>();
+		}
 		
-		for (int i = 1; i < n; i++) {
-			int a = sc.nextInt();
-			int b = sc.nextInt();
-			int c = sc.nextInt();
+		for (int i = 0; i < n - 1; i++) {
+			st = new StringTokenizer(br.readLine());
+			int p = Integer.parseInt(st.nextToken());
+			int c = Integer.parseInt(st.nextToken());
+			int w = Integer.parseInt(st.nextToken());
 			
-			map[a][b] = map[b][a] = c;
+			adj[p].add(new Node(c, w));
+			adj[c].add(new Node(p, w));
 		}
 		
-
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1;j <= n; j++) {
-				if (map[i][j] != 0  && visited[i][j] == 0) {
-					dfs(i, j);
-				}
-			}
-		}
+		isVisited[1] = true;
+		dfs(1, 0);
 		
-
-		sc.close();
+		isVisited = new boolean[n + 1];
+		dist= 0;
+		isVisited[farthestNode] = true;
+		dfs(farthestNode, 0);
+		
+		System.out.println(dist);
+		
 	}
-	private static void dfs(int x, int y) {
+
+	private static void dfs(int nodeNum, int distSum) {
 		// TODO Auto-generated method stub
-		visited[x][y] = map[x][y];
-		for (int i = 1; i <= n; i++) {
-			if (map[x][i] != 0 && visited[x][i] == 0) {
-				dfs(x, i);
+		if (dist < distSum) {
+			dist = distSum;
+			farthestNode = nodeNum;
+		}
+		
+		for (Node next : adj[nodeNum]) {
+			if(isVisited[next.num]) {
+				continue;
 			}
+			
+			isVisited[next.num] = true;
+			dfs(next.num,  distSum + next.weight);
 		}
 	}
-	
-	
-
 }
