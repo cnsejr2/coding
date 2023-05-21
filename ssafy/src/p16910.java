@@ -9,6 +9,8 @@ public class p16910 {
 		int t = sc.nextInt();
 		
 		for (int i = 0; i < t; i++) {
+			int n = sc.nextInt();
+			
 			
 		}
 		sc.close();
