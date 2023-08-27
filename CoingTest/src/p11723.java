@@ -1,47 +1,57 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class p11723 {
-	static int m, result, num;
-	static String command;
-	static StringTokenizer st;
-	static StringBuilder sb = new StringBuilder();
 	
-	public static void main(String[] args) throws NumberFormatException, IOException {
+	
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		m = Integer.parseInt(br.readLine());
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		StringBuilder sb = new StringBuilder();
 		
-		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine());
-			command = st.nextToken();
+		int n = Integer.parseInt(br.readLine());
+		int bitset = 0;
+		
+		while ( n-- > 0) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			String op = st.nextToken();
+			int num;
 			
-			if (!(command.equals("all") || command.equals("empty"))) {
+			switch (op) {
+			case "add" :
 				num = Integer.parseInt(st.nextToken());
+				bitset |= (1 << (num - 1));
+				break;
+			case "remove" :
+				num = Integer.parseInt(st.nextToken());
+				bitset = bitset & ~(1 << (num - 1));
+				break;
+			case "check" :
+				num = Integer.parseInt(st.nextToken());
+				sb.append((bitset & (1 << (num - 1))) != 0 ? "1\n" : "0\n");
+				break;
+			case "toggle" :
+				num = Integer.parseInt(st.nextToken());
+				bitset ^= (1 << (num - 1));
+				break;
+			case "all" :
+				bitset |= (~0);
+				break;
+			case "empty" :
+				bitset &= 0;
+				break;
 			}
-			if (command.equals("add")) {
-				result |= (1 << num);
-			} else if (command.equals("remove")) {
-				result &= ~(1 << num);
-			} else if (command.equals("check")) {
-				if ((result  & (1 << num)) > 0) {
-					sb.append("1").append("\n");
-				} else {
-					sb.append("0").append("\n");
-				}
-			} else if (command.equals("toggle")) {
-				result ^= (1 << num);
-			} else if (command.equals("all")) {
-				result -= 1;
-			} else if (command.equals("empty")) {
-				result = 0;
-			}
+			
 		}
 		
-		System.out.println(sb.toString());
-		
+		bw.write(sb.toString());
+		bw.close();
+		br.close();
 	}
 
 }
