@@ -8,7 +8,7 @@ public class dupPermutation {
 		boolean[] visited = new boolean[arr.length];
 		int n = arr.length;
 		
-		dupPerm(arr, output, visited, 0, n, n);
+		dupPerm(arr, output, visited, 0, n, 2);
 	}
 
 	private static void dupPerm(int[] arr, int[] output, boolean[] visited, int depth, int n, int r) {
